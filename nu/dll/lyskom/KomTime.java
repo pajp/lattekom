@@ -95,15 +95,16 @@ public class KomTime implements Serializable {
 	 */
 	public Date getTime() {
 		Calendar cal = new GregorianCalendar();
-		cal.set(Calendar.DST_OFFSET, isdst * 60 * 1000);
+		TimeZone tz = TimeZone.getTimeZone("Europe/Stockholm");  // should be timezone of the server
+		cal.setTimeZone(tz);
+		
 		cal.set(Calendar.YEAR, year + 1900);
 		cal.set(Calendar.DAY_OF_YEAR, yearday + 1); // LysKOM Time yearday
 													// starts with zero
-		cal.set(Calendar.HOUR_OF_DAY, hours);
+		cal.set(Calendar.HOUR_OF_DAY, hours+isdst);
 		cal.set(Calendar.MINUTE, minutes);
 		cal.set(Calendar.SECOND, seconds);
 		cal.set(Calendar.MILLISECOND, 0);
-		cal.set(Calendar.DST_OFFSET, isdst);
 		return cal.getTime();
 	}
 
