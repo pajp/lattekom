@@ -465,6 +465,13 @@ public class Text extends Hollerith implements Serializable {
     }
 
     /**
+     * Returns an array containing all BCC-recipients for this text.
+     */
+    public int[] getBccRecipients() {
+        return getStatInts(TextStat.miscBccRecpt);
+    }
+
+    /**
      * Returns an array containing all the texts of which this is a comment to.
      */
     public int[] getCommented() {
