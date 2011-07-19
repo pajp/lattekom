@@ -326,9 +326,11 @@ public class Session implements AsynchMessageReceiver, RpcReplyReceiver,
         textCache.clear();
         textStatCache.clear();
         membershipCache.clear();
-        synchronized (unreadsConferences) {
-            unreadsConferences.clear();
-        }
+		if (unreadsConferences != null) {
+			synchronized (unreadsConferences) {
+				unreadsConferences.clear();
+			}
+		}
         conferenceCache.clear();
         sessionCache.clear();
         personCache.clear();
@@ -1426,7 +1428,9 @@ public class Session implements AsynchMessageReceiver, RpcReplyReceiver,
     public synchronized Text getText(int textNo, boolean refreshCache,
             boolean useLazyText) throws IOException, RpcFailure {
         if (textNo == 0)
-            throw new RuntimeException("attempt to retreive text zero");
+            throw new RuntimeException("attempt to retrieve text zero");
+        if (textNo < 0)
+            throw new RuntimeException("attempt to retrieve negative text number");
 
         Debug.println("** getText(): getting text " + textNo
                 + "; refreshCache: " + refreshCache);
@@ -1604,7 +1608,7 @@ public class Session implements AsynchMessageReceiver, RpcReplyReceiver,
      * @param firstLocalNo
      *            The first local number to map
      * @param noOfExistingTexts
-     *            The maximum number of texts that the returned mappnig should
+     *            The maximum number of texts that the returned mapping should
      *            contain
      * @return An RpcCall object representing this specific RPC call
      */
@@ -2620,6 +2624,17 @@ public class Session implements AsynchMessageReceiver, RpcReplyReceiver,
     }
 
     /**
+     * Leave a conference.
+     * 
+     * @param confNo
+     *            The conference to leave
+     */
+    public void leaveConference(int confNo) throws IOException, RpcFailure {
+        subMember(confNo, getMyPerson().getNo());
+        memberships = getMyMembershipList(false); // XXX
+    }
+
+    /**
      * Sends the RPC call get-person-stat to the server.
      * 
      * @param persNo
@@ -3075,6 +3090,22 @@ public class Session implements AsynchMessageReceiver, RpcReplyReceiver,
     public void addRecipient(int textNo, int confNo, int type)
             throws IOException, RpcFailure {
         RpcReply reply = waitFor(doAddRecipient(textNo, confNo, type));
+        if (!reply.getSuccess())
+            throw reply.getException();
+        purgeTextCache(textNo);
+    }
+
+    public RpcCall doSubRecipient(int textNo, int confNo)
+            throws IOException {
+        RpcCall req = new RpcCall(count(), Rpc.C_sub_recipient).add(
+                new KomToken(textNo)).add(new KomToken(confNo));
+        writeRpcCall(req);
+        return req;
+    }
+
+    public void subRecipient(int textNo, int confNo)
+            throws IOException, RpcFailure {
+        RpcReply reply = waitFor(doSubRecipient(textNo, confNo));
         if (!reply.getSuccess())
             throw reply.getException();
         purgeTextCache(textNo);
