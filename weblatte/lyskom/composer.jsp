@@ -641,8 +641,12 @@ if (navigator.geolocation) {
         message.innerHTML = "Det gick inte att fastställa platsinformation.";
     }
     function initgeotag() {
+        if (!document.forms[0].enableGeolocation.checked) {
+	     message.innerHTML = "";
+	     return;
+	}
         message.innerHTML = "Begär platsinformation...";
-        navigator.geolocation.getCurrentPosition(geotagPost, geotagerror);
+        navigator.geolocation.getCurrentPosition(geotagPost, geotagerror, {timeout:5000});
     }
 }
 </script>
