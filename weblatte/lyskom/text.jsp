@@ -69,6 +69,11 @@
 	viewedTexts.add(new Integer(text.getNo()));
 
 	boolean noComments = text.getAuxItems(AuxItem.tagNoComments).size() > 0;
+	LocationAuxItem creationLoc = null;
+        if (text.getAuxItems(AuxItem.tagCreationLocation).size() > 0) {
+	    creationLoc = (LocationAuxItem) text.getAuxItems(AuxItem.tagCreationLocation).get(0);
+	}
+
 	String contentType = text.getStat().getContentType();
 	if (request.getParameter("forceContentType") != null)
 	    contentType = request.getParameter("forceContentType");
@@ -244,6 +249,12 @@
 
 	    }
 	}
+	if (creationLoc != null) {
+%>
+	    <a href="http://maps.google.com/maps?z=16&ll=<%= creationLoc.getLatitude() %>,<%= creationLoc.getLongitude() %>">Visa på karta var texten skapades.</a><br/>
+<%
+	}
+
 	if (!contentTypeObj.match("x-kom/user-area")) {
 %>
 	Ärende: <%= htmlize(subject) %><br/>

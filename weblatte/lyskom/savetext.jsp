@@ -102,6 +102,12 @@
 		newText = new Text(textContentBytes, charsetName);
 		wrapText(newText);
 
+		if (parameters.get("enableGeolocation") != null) {
+		    AuxItem geo = new AuxItem(AuxItem.tagCreationLocation, parameter(parameters, "latitude") + " " + parameter(parameters, "longitude"));
+		    newText.getStat().setAuxItem(geo);
+		    Debug.println("geolocation aux-item: " + geo);
+		}
+
 		if (parameters.containsKey("content-type") && !"".equals(parameters.get("content-type"))) {
 		    newText.getStat().setAuxItem(new AuxItem(AuxItem.tagContentType, parameter(parameters, "content-type")));
 		}
