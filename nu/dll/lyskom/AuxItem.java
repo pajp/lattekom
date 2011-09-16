@@ -52,6 +52,10 @@ public class AuxItem implements java.io.Serializable, Tokenizable {
     public final static int tagAllowedContentType = 30;
     public final static int tagCanonicalName = 31;
     public final static int tagMxRefuseImport = 34;
+
+    public final static int tagCreationLocation = 36;
+    public final static int tagLocation = 37;
+
     public final static int tagMxMimePartIn = 10101;
 
     public final static int flagDeleted = 0;

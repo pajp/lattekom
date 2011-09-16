@@ -692,8 +692,11 @@ public class TextStat implements java.io.Serializable {
                 KomToken[] ai = new KomToken[AuxItem.ITEM_SIZE];
                 for (int i = 0; i < AuxItem.ITEM_SIZE; i++)
                     ai[i] = auxItemTokens[acount++];
-
-                ts.addAuxItem(new AuxItem(ai));
+		AuxItem obj = new AuxItem(ai);
+		if (obj.getTag() == AuxItem.tagCreationLocation || obj.getTag() == AuxItem.tagLocation) {
+		    obj = new LocationAuxItem(obj.getTag(), obj.getDataString());
+		}
+		ts.addAuxItem(obj);
             }
         }
 
