@@ -7,7 +7,7 @@ public class LocationAuxItem extends AuxItem {
     double latitude;
     double accuracy;
     public LocationAuxItem(int tag, double latitude, double longitude, double accuracy) {
-	super(tag, latitude + " " + longitude + " " + accuracy);
+	super(tag, latitude + " " + longitude + (accuracy != -1 ? " " + accuracy : ""));
 	this.latitude = latitude;
 	this.longitude = longitude;
 	this.accuracy = accuracy;
