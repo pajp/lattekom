@@ -11,7 +11,7 @@
 	 request.getParameter("name") != null)) {
         int partNo = request.getParameter("part") != null ?
 		Integer.parseInt(request.getParameter("part")) : -1;
-        MimeMultipart multipart = new MimeMultipart(text);
+        MimeMultipart multipart = new MimeMultipart(new MimeText(text));
 	BodyPart part = null;
 	if (partNo == -1) {
 	    String name = request.getParameter("name");
