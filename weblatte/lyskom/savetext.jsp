@@ -1,6 +1,6 @@
 <jsp:directive.page pageEncoding='iso-8859-1' contentType='text/html;charset=utf-8' language='java' import='java.nio.*, java.nio.charset.*, nu.dll.lyskom.*, javax.mail.BodyPart, javax.mail.internet.*' /><jsp:directive.include file='kom.jsp' /><jsp:directive.include file='prefs_inc.jsp' /><%
     if (lyskom == null) {
-	response.sendRedirect("/lyskom/?error=nosession");
+	response.sendRedirect(basePath);
 	return;
     }
     int newTextNo = 0;

@@ -1,6 +1,6 @@
 <jsp:directive.page language='java' import='nu.dll.lyskom.*, javax.mail.BodyPart, javax.mail.internet.*' /><jsp:directive.include file='kom.jsp' /><%
     if (lyskom == null) {
-	response.sendRedirect("/lyskom/?error=nosession");
+	response.sendRedirect(basePath);
 	return;
     }
     Debug.println("rawtext.jsp START. Query: " + request.getQueryString());
