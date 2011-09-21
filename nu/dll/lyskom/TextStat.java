@@ -301,7 +301,8 @@ public class TextStat implements java.io.Serializable {
 	    StringTokenizer pst = new StringTokenizer(parameters, "=");
 	    String key = pst.nextToken().trim();
 	    if (pst.hasMoreTokens()) {
-		m.put(key, pst.nextToken());
+		String value = pst.nextToken().replaceAll("^\"(.*)\"", "$1");		
+		m.put(key, value);
 	    }
 	}
 	return m;
